@@ -163,7 +163,7 @@ If you find this repository useful, please consider giving a star ⭐ and citati
 
 ```
 @misc{mao2024story_adapter,
-  title={{Story-Iter: A Training-free Iterative Framework for Long Story Visualization}},
+  title={{Story-Adapter: A Training-free Iterative Framework for Long Story Visualization}},
   author={Mao, Jiawei and Huang, Xiaoke and Xie, Yunfei and Chang, Yuanqi and Hui, Mude and Xu, Bingjie and Zhou, Yuyin},
   journal={arXiv},
   volume={abs/2410.06244},
