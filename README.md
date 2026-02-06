@@ -18,7 +18,7 @@ Note: This code base is still not complete.
 
 ### About this repo:
 
-The repository contains the official implementation of "Story-Adapter".
+The repository contains the official implementation of "Story-Iter".
 
 ## Introduction 🦖
 
@@ -37,9 +37,9 @@ The repository contains the official implementation of "Story-Adapter".
 
 ## Framework 🤖 
 
-> Story-Adapter framework. Illustration of the proposed iterative paradigm, which consists of initialization, iterations in Story-Adapter, and implementation of Global Reference Cross-Attention (GRCA).
-Story-Adapter first visualizes each image only based on the text prompt of the story and uses all results as reference images for the future round. 
-In the iterative paradigm, Story-Adapter inserts GRCA into SD. For the ith iteration of each image visualization, GRCA will aggregate the information flow of all reference images during the denoising process through cross-attention.
+> Story-Iter framework. Illustration of the proposed iterative paradigm, which consists of initialization, iterations in Story-Iter, and implementation of Global Reference Cross-Attention (GRCA).
+Story-Iter first visualizes each image only based on the text prompt of the story and uses all results as reference images for the future round. 
+In the iterative paradigm, Story-Iter inserts GRCA into SD. For the ith iteration of each image visualization, GRCA will aggregate the information flow of all reference images during the denoising process through cross-attention.
 All results from this iteration will be used as a reference image to guide the dynamic update of the story visualization in the next iteration.
 
 <br>
@@ -54,8 +54,8 @@ The project is built with Python 3.10.14, PyTorch 2.2.2. CUDA 12.1, cuDNN 8.9.02
 For installing, follow these instructions:
 ~~~
 # git clone this repository
-git clone https://github.com/UCSC-VLAA/story-adapter.git
-cd story-adapter
+git clone https://github.com/UCSC-VLAA/Story-Iter.git
+cd Story-Iter
 
 # create new anaconda env
 conda create -n StoryAdapter python=3.10
@@ -163,7 +163,7 @@ If you find this repository useful, please consider giving a star ⭐ and citati
 
 ```
 @misc{mao2024story_adapter,
-  title={{Story-Adapter: A Training-free Iterative Framework for Long Story Visualization}},
+  title={{Story-Iter: A Training-free Iterative Framework for Long Story Visualization}},
   author={Mao, Jiawei and Huang, Xiaoke and Xie, Yunfei and Chang, Yuanqi and Hui, Mude and Xu, Bingjie and Zhou, Yuyin},
   journal={arXiv},
   volume={abs/2410.06244},
