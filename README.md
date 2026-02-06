@@ -4,7 +4,7 @@
 
 
 
-# Story-Adapter: A Training-free Iterative Framework for Long Story Visualization
+# Story-Iter: A Training-free Iterative Paradigm for Long Story Visualization
 <span>
 <a href="https://arxiv.org/abs/2410.06244"><img src="https://img.shields.io/badge/arXiv-2410.06244-b31b1b.svg" height=22.5></a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" height=22.5></a>  
@@ -12,7 +12,7 @@
 <a href="https://colab.research.google.com/drive/1sFbw0XlCQ6DBRU3s2n_F2swtNmHoicM-?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" height=22.5></a>
 </span>
 
-Code for the paper [Story-Adapter: A Training-free Iterative Framework for Long Story Visualization](https://arxiv.org/abs/2410.06244)
+Code for the paper [Story-Iter: A Training-free Iterative Paradigm for Long Story Visualization](https://arxiv.org/abs/2410.06244)
 
 Note: This code base is still not complete. 
 
@@ -22,7 +22,7 @@ The repository contains the official implementation of "Story-Adapter".
 
 ## Introduction 🦖
 
-> Story visualization, the task of generating coherent images based on a narrative, has seen significant advancements with the emergence of text-to-image models, particularly diffusion models. However, maintaining semantic consistency, generating high-quality fine-grained interactions, and ensuring computational feasibility remain challenging, especially in long story visualization (_i.e._, up to 100 frames). In this work, we propose a training-free and computationally efficient framework, termed **Story-Adapter**, to enhance the generative capability of long stories. Specifically, we propose an _iterative_ paradigm to refine each generated image, leveraging both the text prompt and all generated images from the previous iteration. Central to our framework is a training-free global reference cross-attention module, which aggregates all generated images from the previous iteration to preserve semantic consistency across the entire story, while minimizing computational costs with global embeddings. This iterative process progressively optimizes image generation by repeatedly incorporating text constraints, resulting in more precise and fine-grained interactions. Extensive experiments validate the superiority of Story-Adapter in improving both semantic consistency and generative capability for fine-grained interactions, particularly in long story scenarios.
+> Story visualization, the task of generating coherent images based on a narrative, has seen significant advancements with the emergence of text-to-image models, particularly diffusion models. However, maintaining semantic consistency, generating high-quality fine-grained interactions, and ensuring computational feasibility remain challenging, especially in long story visualization (_i.e._, up to 100 frames). In this work, we introduce **Story-Iter**, a new training-free iterative paradigm to enhance long-story generation. Unlike existing methods that rely on fixed reference images to construct a complete story, our approach features a novel external \textbf{iterative paradigm}, extending beyond the internal iterative denoising steps of diffusion models, to continuously refine each generated image by incorporating all reference images from the previous round. To achieve this, we propose a plug-and-play, training-free **g**lobal **r**eference **c**ross-**a**ttention (**GRCA**) module, modeling all reference frames with global embeddings, ensuring semantic consistency in long sequences. By progressively incorporating holistic visual context and text constraints, our iterative paradigm enables precise generation with fine-grained interactions, optimizing the story visualization step-by-step. Extensive experiments in the official story visualization dataset and our long story benchmark demonstrate that Story-Iter's state-of-the-art performance in long-story visualization (up to 100 frames) excels in both semantic consistency and fine-grained interactions.
 
 <br>
 
