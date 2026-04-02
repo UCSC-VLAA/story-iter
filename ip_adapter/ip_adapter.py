@@ -344,6 +344,110 @@ class StoryAdapterXL(IPAdapter):
 
         return images
 
+class StoryAdapterXLControlnet(IPAdapter):
+    """SDXL"""
+
+    def generate(
+        self,
+        pil_image=None,
+        clip_image_embeds=None,
+        prompt=None,
+        negative_prompt=None,
+        scale=1.0,
+        num_samples=4,
+        seed=None,
+        guidance_scale=7.5,
+        num_inference_steps=30,
+        use_image=True,
+        style="comic",
+        height=1024,
+        width=1024,
+        **kwargs,
+    ):
+        self.set_scale(scale)
+        
+        if use_image:
+            if pil_image is not None:
+                num_prompts = 1
+            else:
+                num_prompts = clip_image_embeds.size(0)
+        else:
+            num_prompts = 1
+
+        if prompt is None:
+            prompt = "best quality, high quality"
+        else:
+            if style == "comic":
+                prompt = "best quality, high quality, comic " + prompt + " . graphic illustration, comic art, graphic novel art, vibrant, highly detailed" # comic style
+            elif style == "film":
+                prompt = "best quality, high quality, cinematic film still, " + prompt + " . shallow depth of field, vignette, highly detailed, high budget, bokeh, cinemascope, moody, epic, gorgeous, film grain, grainy"  # film style
+            else:
+                prompt = "best quality, high quality, " + prompt # realistic style
+
+        if negative_prompt is None:
+            negative_prompt = "monochrome, lowres, bad anatomy, worst quality, low quality"
+
+        # if negative_prompt is None:
+            # if style == 'cartoon':
+            # negative_prompt = "photograph, deformed, glitch, noisy, realistic, stock photo naked, deformed, bad anatomy, disfigured, poorly drawn face, mutation, extra limb, ugly, disgusting, poorly drawn hands, missing limb, floating limbs, disconnected limbs, blurry, watermarks, oversaturated, distorted hands, amputation"  # comic style
+            # negative_prompt = "anime, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured"  # film style
+            # negative_prompt = "bad anatomy, bad hands, missing fingers, extra fingers, three hands, three legs, bad arms, missing legs, missing arms, poorly drawn face, bad face, fused face, cloned face, three crus, fused feet, fused thigh, extra crus, ugly fingers, horn, cartoon, cg, 3d, unreal, animate, amputation, disconnected limbs"
+
+        if not isinstance(prompt, List):
+            prompt = [prompt] * num_prompts
+        if not isinstance(negative_prompt, List):
+            negative_prompt = [negative_prompt] * num_prompts
+
+        if use_image:
+            image_prompt_embeds, uncond_image_prompt_embeds = self.get_image_embeds(
+                pil_image=pil_image, clip_image_embeds=clip_image_embeds
+            )
+            # print(f'image_prompt_embeds:{image_prompt_embeds.shape}')
+            bs_embed, seq_len, _ = image_prompt_embeds.shape
+            image_prompt_embeds = image_prompt_embeds.repeat(1, num_samples, 1)
+            image_prompt_embeds = image_prompt_embeds.view(bs_embed * num_samples, seq_len, -1)
+            uncond_image_prompt_embeds = uncond_image_prompt_embeds.repeat(1, num_samples, 1)
+            uncond_image_prompt_embeds = uncond_image_prompt_embeds.view(bs_embed * num_samples, seq_len, -1)
+        else:
+            image_prompt_embeds = None
+            uncond_image_prompt_embeds = None
+        
+
+        with torch.inference_mode():
+            (
+                prompt_embeds_,
+                negative_prompt_embeds_,
+                pooled_prompt_embeds,
+                negative_pooled_prompt_embeds,
+            ) = self.pipe.encode_prompt(
+                prompt,
+                num_images_per_prompt=num_samples,
+                do_classifier_free_guidance=True,
+                negative_prompt=negative_prompt,
+            )
+            
+            if use_image:
+                prompt_embeds = torch.cat([prompt_embeds_, image_prompt_embeds], dim=1)
+                negative_prompt_embeds = torch.cat([negative_prompt_embeds_, uncond_image_prompt_embeds], dim=1)
+            else:
+                prompt_embeds = prompt_embeds_
+                negative_prompt_embeds = negative_prompt_embeds_
+
+        self.generator = get_generator(seed, self.device)
+        
+        images = self.pipe(
+            prompt_embeds=prompt_embeds,
+            negative_prompt_embeds=negative_prompt_embeds,
+            pooled_prompt_embeds=pooled_prompt_embeds,
+            negative_pooled_prompt_embeds=negative_pooled_prompt_embeds,
+            height=height,
+            width=width,
+            num_inference_steps=num_inference_steps,
+            generator=self.generator,
+            **kwargs,
+        ).images
+
+        return images
 
 class IPAdapterPlus(IPAdapter):
     """IP-Adapter with fine-grained features"""
