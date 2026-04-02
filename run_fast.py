@@ -2,7 +2,7 @@ import torch
 from diffusers import StableDiffusionXLPipeline, StableDiffusionImg2ImgPipeline, StableDiffusionInpaintPipelineLegacy, DDIMScheduler, AutoencoderKL, UNet2DConditionModel, LCMScheduler
 from PIL import Image
 import numpy as np
-from ip_adapter import StoryIterXL
+from ip_adapter import StoryAdapterXL
 import os
 import random
 import argparse
