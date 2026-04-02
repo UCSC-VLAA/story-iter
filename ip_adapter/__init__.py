@@ -1,4 +1,4 @@
-from .ip_adapter import IPAdapter, IPAdapterPlus, IPAdapterPlusXL, StoryAdapterXL, IPAdapterFull
+from .ip_adapter import IPAdapter, IPAdapterPlus, IPAdapterPlusXL, StoryAdapterXL, IPAdapterFull, StoryAdapterXLControlnet
 
 __all__ = [
     "IPAdapter",
