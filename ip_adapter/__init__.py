@@ -5,5 +5,6 @@ __all__ = [
     "IPAdapterPlus",
     "IPAdapterPlusXL",
     "StoryAdapterXL",
+    "StoryAdapterXLControlnet"
     "IPAdapterFull",
 ]
